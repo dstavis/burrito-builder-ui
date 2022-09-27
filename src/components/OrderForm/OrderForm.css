@@ -2,3 +2,7 @@ button.invalid {
   cursor: not-allowed;
   color: grey;
 }
+
+.error-message {
+  color: crimson;
+}

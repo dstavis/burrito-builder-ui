@@ -19,7 +19,7 @@ class OrderForm extends Component {
       this.props.addNewOrder(this.state)
       this.clearInputs();
     } else {
-      // notify the user?
+      
       console.log(errorMessage)
     }
   }
@@ -45,16 +45,16 @@ class OrderForm extends Component {
     const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
     const ingredientButtons = possibleIngredients.map(ingredient => {
       return (
-        <button type="button" key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
+        <button className="ingredient-button" type="button" key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
           {ingredient}
         </button>
       )
     });
 
-    const submittable = (this.state.name.length && this.state.ingredients.length)
+    let submittable = (this.state.name.length && this.state.ingredients.length)
 
     return (
-      <form>
+      <form onSubmit={this.handleSubmit}>
         <input
           required
           type='text'
@@ -67,8 +67,9 @@ class OrderForm extends Component {
         { ingredientButtons }
 
         <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
-
-        <button className={!submittable ? "invalid": ""} onClick={e => this.handleSubmit(e)}>
+        {!submittable ? <p className="error-message">Please enter a name and one or more ingredients</p> : ""}
+        <button className={!submittable ? "invalid submit": "submit"} onClick={e => {
+          this.handleSubmit(e)} }>
           Submit Order
         </button>
       </form>
