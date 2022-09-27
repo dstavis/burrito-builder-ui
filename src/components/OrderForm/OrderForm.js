@@ -13,13 +13,22 @@ class OrderForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    // ONLY IF both a name and at least one ingredient are provided,
+      // post the new order
     this.clearInputs();
-    // post the new order
   }
 
   handleNameChange = (event) => {
     const {name, value} = event.target
     this.setState({[name]: value })
+  }
+
+  handleIngredientChange = (event) => {
+    event.preventDefault()
+    const {name} = event.target
+    this.setState( (previousState) => {
+      return { ingredients: [...previousState.ingredients, name] }
+    } )
   }
 
   clearInputs = () => {
@@ -30,7 +39,7 @@ class OrderForm extends Component {
     const possibleIngredients = ['beans', 'steak', 'carnitas', 'sofritas', 'lettuce', 'queso fresco', 'pico de gallo', 'hot sauce', 'guacamole', 'jalapenos', 'cilantro', 'sour cream'];
     const ingredientButtons = possibleIngredients.map(ingredient => {
       return (
-        <button key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
+        <button type="button" key={ingredient} name={ingredient} onClick={e => this.handleIngredientChange(e)}>
           {ingredient}
         </button>
       )
