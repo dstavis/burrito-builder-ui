@@ -14,6 +14,12 @@ class OrderForm extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.clearInputs();
+    // post the new order
+  }
+
+  handleNameChange = (event) => {
+    const {name, value} = event.target
+    this.setState({[name]: value })
   }
 
   clearInputs = () => {
