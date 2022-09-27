@@ -6,6 +6,12 @@ describe('orders and new order submission', () => {
     cy.intercept("POST", ordersURL, { fixture: "newOrder"})
   })
 
+  it('sad path: if there are no orders in the DB, show error message', () => {
+    cy.intercept("GET", ordersURL, { })
+    cy.visit('http://localhost:3000')
+    cy.get("section > p").should("contain", "No orders yet!")
+  })
+
   it('the form appears when the page loads', () => {
     cy.visit('http://localhost:3000')
     cy.get("form").should("exist")
