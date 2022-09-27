@@ -1,0 +1,4 @@
+button.invalid {
+  cursor: not-allowed;
+  color: grey;
+}

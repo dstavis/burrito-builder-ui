@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import "./OrderForm.css"
 
 class OrderForm extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.props = props;
     this.state = {
       name: '',
@@ -13,9 +14,14 @@ class OrderForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // ONLY IF both a name and at least one ingredient are provided,
-      // post the new order
-    this.clearInputs();
+    const errorMessage = "Form must have both a name and one or more ingredients to be submitted"
+    if(this.state.name.length && this.state.ingredients.length) {
+      this.props.addNewOrder(this.state)
+      this.clearInputs();
+    } else {
+      // notify the user?
+      console.log(errorMessage)
+    }
   }
 
   handleNameChange = (event) => {
@@ -45,9 +51,12 @@ class OrderForm extends Component {
       )
     });
 
+    const submittable = (this.state.name.length && this.state.ingredients.length)
+
     return (
       <form>
         <input
+          required
           type='text'
           placeholder='Name'
           name='name'
@@ -59,7 +68,7 @@ class OrderForm extends Component {
 
         <p>Order: { this.state.ingredients.join(', ') || 'Nothing selected' }</p>
 
-        <button onClick={e => this.handleSubmit(e)}>
+        <button className={!submittable ? "invalid": ""} onClick={e => this.handleSubmit(e)}>
           Submit Order
         </button>
       </form>
